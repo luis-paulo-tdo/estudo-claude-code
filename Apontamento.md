@@ -53,3 +53,10 @@
 - Todas estas informações deverão ser salvas em um arquivo que ajudará no desenvolvimento.
 - Premissas iniciais: Público-alvo, diferencial, modelo de negócio, MVP e tecnologias.
 - Devemos evitar muitas lacunas, pois o Agente pode preenchê-las com coisas sem sentido.
+
+### 2.2. Alternativas ao Terminal
+- Após a entrevista, o Claude gera um arquivo de Markdown contendo todas as premissas.
+- Neste arquivo, temos a visão geral do projeto, o público-alvo e os diferenciais.
+- O arquivo fala sobre MVP, funcionalidades essenciais, design e stack utilizadas.
+- Especifica também as decisões arquiteturais orientadoras e itens fora do escopo.
+- Também, lista os princípios do projeto e os primeiros passos a serem seguidos.
