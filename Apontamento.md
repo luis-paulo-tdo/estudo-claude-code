@@ -33,3 +33,8 @@
 - Para que isto funcione, precisamos também fazer parte deste ciclo ativamente.
 - Antes, pedíamos um código, o Chatbot nos devolvia e torciamos para funcionar.
 - Hoje, a gente descreve o que queremos, vê o que o Agente faz e vai ajustando.
+
+### 1.4. Instalando e Rodando
+- O download do Agente é requer no mínimo o Plano Pro e é feito no site do Claude.
+- Uma vez instalado, deve-se abrir o PowerShell como admin e rodar o `claude`.
+- Tenha cuidado ao utilizar o Claude com projetos de terceiros e não confiáveis.
