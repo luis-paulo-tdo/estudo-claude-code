@@ -38,3 +38,18 @@
 - O download do Agente é requer no mínimo o Plano Pro e é feito no site do Claude.
 - Uma vez instalado, deve-se abrir o PowerShell como admin e rodar o `claude`.
 - Tenha cuidado ao utilizar o Claude com projetos de terceiros e não confiáveis.
+
+## 2. Planejando uma Aplicação
+
+### 2.1. Entendendo o Problema
+- Antigamente, os geradores de código tinham problemas com contexto que eram muito grandes.
+- Era preferível fazer a quebra do problema em partes e ir gerando os códigos aos poucos.
+- O Claude Code prefere construir muitas coisas de uma vez desde que o prompt esteja claro.
+- Definir em um arquivo os detalhes técnicos e de negócio essenciais é meio caminho andado.
+- Através deste arquivo, o Claude consegue nortear o desenvolvimento dentro do contexto.
+- A primeira coisa que fazemos, é pedir ao Claude ajuda na construção de um arquivo.
+- Neste primeiro prompt, descrevemos o que é e os objetivos da aplicação desejada.
+- Além disso, pedimos para que o Claude faça uma entrevista para definir as premissas.
+- Todas estas informações deverão ser salvas em um arquivo que ajudará no desenvolvimento.
+- Premissas iniciais: Público-alvo, diferencial, modelo de negócio, MVP e tecnologias.
+- Devemos evitar muitas lacunas, pois o Agente pode preenchê-las com coisas sem sentido.
