@@ -23,3 +23,13 @@
 - A diferença agora é saber o que queremos pedir, especificando os detalhes.
 - Com isto, nos tornamos os chefes do projeto, ditando o que o Claude irá fazer.
 - É preciso pensar com clareza, planejar com intenão e comunicar com precisão.
+
+### 1.3. O Loop do Claude Code
+- A forma comum de uso da IA é digitando qualquer coisa e recebendo uma resposta.
+- Geralmente, os Chatbots retornam trechos de código soltos e você deve usá-los.
+- Os Agentes, por outro lado, se preocupam com todo o contexto do projeto.
+- Ele vai entender, buscar contexto, agir, verificar, corrigir e entregar.
+- O próprio Claude irá atuar em todo o ciclo de desenvolvimento da aplicação.
+- Para que isto funcione, precisamos também fazer parte deste ciclo ativamente.
+- Antes, pedíamos um código, o Chatbot nos devolvia e torciamos para funcionar.
+- Hoje, a gente descreve o que queremos, vê o que o Agente faz e vai ajustando.
