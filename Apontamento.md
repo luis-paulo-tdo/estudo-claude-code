@@ -60,3 +60,6 @@
 - O arquivo fala sobre MVP, funcionalidades essenciais, design e stack utilizadas.
 - Especifica também as decisões arquiteturais orientadoras e itens fora do escopo.
 - Também, lista os princípios do projeto e os primeiros passos a serem seguidos.
+- É possível continuar o trabalho utilizando o VS Code em vez do PowerShell.
+- Para isto, precisamos baixar a IDE e configurar o plugin do Claude Code.
+- O plugin nos permite já iniciar o Claude dentro do diretório que abrimos.
