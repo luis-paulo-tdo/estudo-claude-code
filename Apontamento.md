@@ -63,3 +63,14 @@
 - É possível continuar o trabalho utilizando o VS Code em vez do PowerShell.
 - Para isto, precisamos baixar a IDE e configurar o plugin do Claude Code.
 - O plugin nos permite já iniciar o Claude dentro do diretório que abrimos.
+
+### 2.3. Planejando a Execução
+- O arquivo que fizemos com os requisitos chama-se PRD (Product Requirements Document).
+- O documento descreve os detalhes da solução que iremos desenvolver para o cliente.
+- Podemos definir dois modos do Claude Code trabalhar em cima deste documento.
+- Ou o Agente pergunta antes de editar os arquivos, ou ele edita antes de perguntar.
+- Ainda tem um outro modo, que é o modo de planejamento das atividades a serem feitas.
+- Todo o documento de requisitos é quebrado em um passo a passo que será seguido.
+- Conforme o planejamento é feito, o Claude também irá instalar o ambiente necessário.
+- O próprio Claude vai instalar as dependências do projeto por meio do terminal.
+- Instaladas as dependências, o desenvolvimento é iniciado dentro do contexto.
