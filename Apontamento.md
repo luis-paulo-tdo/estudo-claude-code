@@ -74,3 +74,12 @@
 - Conforme o planejamento é feito, o Claude também irá instalar o ambiente necessário.
 - O próprio Claude vai instalar as dependências do projeto por meio do terminal.
 - Instaladas as dependências, o desenvolvimento é iniciado dentro do contexto.
+
+## 3. Do Plano para a Tela
+
+### 3.1. Rodando o MVP
+- Após a execução do projeto, o Agente informará o que foi feito e os próximos passos.
+- Possa ser que durante o processo, seja preciso realizar configurações manualmente.
+- Podem ser demandados cadastros em plataformas com o objetivo de obter API Keys.
+- Caso a execução de algum comando dê erro, você pode copiar a mensagem para o Agente.
+- A interação com a Inteligência Artificial agora é contínua, ambos trabalham juntos.
