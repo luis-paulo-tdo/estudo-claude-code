@@ -29,3 +29,31 @@
   padding: 4px 10px;
   font-size: 12px;
 }
+
+.pricing-section {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+
+  summary {
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    user-select: none;
+
+    &:hover { color: var(--color-text); }
+  }
+}
+
+.pricing-fields {
+  padding: 12px 12px 4px;
+  border-top: 1px solid var(--color-border);
+}
+
+.pricing-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}

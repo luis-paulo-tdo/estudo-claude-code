@@ -244,5 +244,4 @@
 /backend/src/FinanceApp.Infrastructure/obj/project.assets.json
 /backend/src/FinanceApp.Infrastructure/obj/project.nuget.cache
 /frontend/.vscode/
-/backend/src/FinanceApp.Api/financeapp.db-wal
-/backend/src/FinanceApp.Api/financeapp.db-shm
+/backend/src/FinanceApp.Api/*.db*

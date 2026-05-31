@@ -46,7 +46,8 @@ export class TransactionListComponent implements OnInit {
   openEdit(t: Transaction) {
     this.form = {
       date: t.date, amount: t.amount, description: t.description,
-      type: t.type, categoryId: t.categoryId, isRecurring: t.isRecurring, recurrenceDay: t.recurrenceDay
+      type: t.type, categoryId: t.categoryId, isRecurring: t.isRecurring, recurrenceDay: t.recurrenceDay,
+      unitPrice: t.unitPrice, quantity: t.quantity, unit: t.unit
     };
     this.editing.set(t);
     this.showForm.set(true);
@@ -87,6 +88,6 @@ export class TransactionListComponent implements OnInit {
   private emptyForm(): CreateTransaction {
     const now = new Date();
     const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-    return { date: local, amount: 0, description: '', type: 'Expense', categoryId: '', isRecurring: false, recurrenceDay: null };
+    return { date: local, amount: 0, description: '', type: 'Expense', categoryId: '', isRecurring: false, recurrenceDay: null, unitPrice: null, quantity: null, unit: null };
   }
 }

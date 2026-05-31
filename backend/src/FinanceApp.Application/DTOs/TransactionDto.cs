@@ -12,7 +12,10 @@ public record TransactionDto(
     string CategoryName,
     string? CategoryColor,
     bool IsRecurring,
-    int? RecurrenceDay);
+    int? RecurrenceDay,
+    decimal? UnitPrice,
+    decimal? Quantity,
+    string? Unit);
 
 public record CreateTransactionDto(
     DateTime Date,
@@ -21,7 +24,10 @@ public record CreateTransactionDto(
     TransactionType Type,
     Guid CategoryId,
     bool IsRecurring,
-    int? RecurrenceDay);
+    int? RecurrenceDay,
+    decimal? UnitPrice,
+    decimal? Quantity,
+    string? Unit);
 
 public record UpdateTransactionDto(
     DateTime Date,
@@ -30,4 +36,7 @@ public record UpdateTransactionDto(
     TransactionType Type,
     Guid CategoryId,
     bool IsRecurring,
-    int? RecurrenceDay);
+    int? RecurrenceDay,
+    decimal? UnitPrice,
+    decimal? Quantity,
+    string? Unit);

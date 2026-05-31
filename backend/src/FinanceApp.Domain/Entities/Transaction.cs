@@ -13,5 +13,9 @@ public class Transaction
     public bool IsRecurring { get; set; }
     public int? RecurrenceDay { get; set; }
 
+    public decimal? UnitPrice { get; set; }
+    public decimal? Quantity { get; set; }
+    public string? Unit { get; set; }
+
     public Category Category { get; set; } = null!;
 }

@@ -47,6 +47,9 @@ public class TransactionsController(AppDbContext db) : ControllerBase
             CategoryId = dto.CategoryId,
             IsRecurring = dto.IsRecurring,
             RecurrenceDay = dto.RecurrenceDay,
+            UnitPrice = dto.UnitPrice,
+            Quantity = dto.Quantity,
+            Unit = dto.Unit,
             Category = category
         };
 
@@ -71,6 +74,9 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         transaction.CategoryId = dto.CategoryId;
         transaction.IsRecurring = dto.IsRecurring;
         transaction.RecurrenceDay = dto.RecurrenceDay;
+        transaction.UnitPrice = dto.UnitPrice;
+        transaction.Quantity = dto.Quantity;
+        transaction.Unit = dto.Unit;
 
         await db.SaveChangesAsync();
         return NoContent();
@@ -90,5 +96,6 @@ public class TransactionsController(AppDbContext db) : ControllerBase
     private static TransactionDto MapToDto(Transaction t) =>
         new(t.Id, t.Date, t.Amount, t.Description, t.Type,
             t.CategoryId, t.Category.Name, t.Category.Color,
-            t.IsRecurring, t.RecurrenceDay);
+            t.IsRecurring, t.RecurrenceDay,
+            t.UnitPrice, t.Quantity, t.Unit);
 }
