@@ -1,0 +1,156 @@
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.month-label {
+  font-weight: 600;
+  text-transform: capitalize;
+  min-width: 160px;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  padding: 48px;
+  color: var(--color-text-muted);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+  }
+
+  &__value {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &--income .summary-card__value  { color: var(--color-income); }
+  &--expense .summary-card__value { color: var(--color-expense); }
+  &--positive .summary-card__value { color: var(--color-income); }
+  &--negative .summary-card__value { color: var(--color-expense); }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 16px;
+  align-items: start;
+}
+
+.dashboard-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.btn--sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.category-item {
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  &__name {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+  }
+
+  &__amounts { font-size: 13px; }
+
+  .muted { color: var(--color-text-muted); }
+}
+
+.insight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insight-item {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  line-height: 1.5;
+
+  &--info     { background: #ebf8ff; border-left: 3px solid #4299e1; }
+  &--warning  { background: #fffaf0; border-left: 3px solid #ed8936; }
+  &--critical { background: #fff5f5; border-left: 3px solid #e53e3e; }
+}
+
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &__info { flex: 1; }
+
+  &__desc { font-weight: 500; font-size: 13px; }
+
+  &__meta { font-size: 12px; color: var(--color-text-muted); margin-top: 2px; }
+
+  &__amount {
+    font-weight: 600;
+    font-size: 13px;
+
+    &.income  { color: var(--color-income); }
+    &.expense { color: var(--color-expense); }
+  }
+}
+
+@media (max-width: 900px) {
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .summary-grid { grid-template-columns: 1fr; }
+}

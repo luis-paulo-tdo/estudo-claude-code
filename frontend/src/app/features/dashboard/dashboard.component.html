@@ -1,0 +1,121 @@
+<div class="page-header">
+  <h1>Dashboard</h1>
+  <div class="month-nav">
+    <button class="btn btn--ghost" (click)="prevMonth()">‹</button>
+    <span class="month-label">{{ monthLabel }}</span>
+    <button class="btn btn--ghost" (click)="nextMonth()">›</button>
+  </div>
+</div>
+
+@if (loading()) {
+  <div class="loading">Carregando...</div>
+} @else if (dashboard(); as d) {
+
+  <!-- Balance Cards -->
+  <div class="summary-grid">
+    <div class="card summary-card summary-card--income">
+      <p class="summary-card__label">Receitas</p>
+      <p class="summary-card__value">{{ d.totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</p>
+    </div>
+    <div class="card summary-card summary-card--expense">
+      <p class="summary-card__label">Despesas</p>
+      <p class="summary-card__value">{{ d.totalExpenses | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</p>
+    </div>
+    <div class="card summary-card" [class.summary-card--positive]="d.balance >= 0" [class.summary-card--negative]="d.balance < 0">
+      <p class="summary-card__label">Saldo</p>
+      <p class="summary-card__value">{{ d.balance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</p>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <!-- Category summaries -->
+    <div class="card">
+      <h2 class="card-title">Gastos por Categoria</h2>
+      @if (d.categorySummaries.length === 0) {
+        <div class="empty-state">
+          <div class="empty-state__icon">📂</div>
+          <p>Nenhum gasto registrado neste mês.</p>
+        </div>
+      } @else {
+        <div class="category-list">
+          @for (cat of d.categorySummaries; track cat.categoryId) {
+            <div class="category-item">
+              <div class="category-item__header">
+                <div class="category-item__name">
+                  <span class="color-dot" [style.background]="cat.categoryColor ?? '#9E9E9E'"></span>
+                  {{ cat.categoryName }}
+                </div>
+                <div class="category-item__amounts">
+                  <span>{{ cat.totalSpent | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+                  @if (cat.plannedAmount) {
+                    <span class="muted"> / {{ cat.plannedAmount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+                  }
+                </div>
+                <span class="badge" [class]="'badge--' + (cat.status === 'NoBudget' ? 'info' : cat.status.toLowerCase())">
+                  {{ cat.status === 'Ok' ? 'OK' : cat.status === 'Warning' ? 'Atenção' : cat.status === 'Critical' ? 'Crítico' : 'Sem orçamento' }}
+                </span>
+              </div>
+              @if (cat.plannedAmount) {
+                <div class="progress-bar">
+                  <div class="progress-bar__fill"
+                    [class.progress-bar__fill--warning]="cat.status === 'Warning'"
+                    [class.progress-bar__fill--critical]="cat.status === 'Critical'"
+                    [style.width.%]="budgetPercent(cat.totalSpent, cat.plannedAmount)">
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="dashboard-right">
+
+      <!-- Insights -->
+      @if (insights().length > 0) {
+        <div class="card">
+          <h2 class="card-title">💡 Insights</h2>
+          <div class="insight-list">
+            @for (insight of insights(); track insight.type + insight.message) {
+              <div class="insight-item" [class]="'insight-item--' + severityClass(insight.severity)">
+                <p>{{ insight.message }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Recent Transactions -->
+      <div class="card">
+        <div class="card-title-row">
+          <h2 class="card-title">Últimos Lançamentos</h2>
+          <a routerLink="/transactions" class="btn btn--ghost btn--sm">Ver todos</a>
+        </div>
+        @if (d.recentTransactions.length === 0) {
+          <div class="empty-state">
+            <div class="empty-state__icon">💳</div>
+            <p>Nenhum lançamento neste mês.</p>
+          </div>
+        } @else {
+          <div class="transaction-list">
+            @for (t of d.recentTransactions; track t.id) {
+              <div class="transaction-item">
+                <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'"></span>
+                <div class="transaction-item__info">
+                  <p class="transaction-item__desc">{{ t.description }}</p>
+                  <p class="transaction-item__meta">{{ t.categoryName }} · {{ t.date | date:'dd/MM' }}</p>
+                </div>
+                <span class="transaction-item__amount" [class.income]="t.type === 'Income'" [class.expense]="t.type === 'Expense'">
+                  {{ t.type === 'Income' ? '+' : '-' }}{{ t.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+}

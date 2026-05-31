@@ -1,0 +1,80 @@
+<div class="page-header">
+  <h1>Orçamentos</h1>
+  <button class="btn btn--primary" (click)="openCreate()">+ Novo Orçamento</button>
+</div>
+
+<div class="filters card">
+  <button class="btn btn--ghost" (click)="prevMonth()">‹</button>
+  <span class="month-label">{{ monthLabel }}</span>
+  <button class="btn btn--ghost" (click)="nextMonth()">›</button>
+</div>
+
+<div class="card">
+  @if (budgets().length === 0) {
+    <div class="empty-state">
+      <div class="empty-state__icon">🎯</div>
+      <p>Nenhum orçamento definido para este mês.</p>
+    </div>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Categoria</th>
+          <th style="text-align:right">Limite Planejado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (b of budgets(); track b.id) {
+          <tr>
+            <td>
+              <div class="cat-cell">
+                <span class="color-dot" [style.background]="b.categoryColor ?? '#9E9E9E'"></span>
+                {{ b.categoryName }}
+              </div>
+            </td>
+            <td style="text-align:right; font-weight:600">
+              {{ b.plannedAmount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </td>
+            <td class="actions">
+              <button class="btn btn--ghost btn--sm" (click)="openEdit(b)">Editar</button>
+              <button class="btn btn--danger btn--sm" (click)="delete(b.id)">Excluir</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
+
+@if (showForm()) {
+  <div class="modal-backdrop" (click)="closeForm()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal__header">
+        <h2>{{ editing() ? 'Editar Orçamento' : 'Novo Orçamento' }}</h2>
+        <button class="btn btn--ghost btn--sm" (click)="closeForm()">✕</button>
+      </div>
+
+      @if (!editing()) {
+        <div class="form-group">
+          <label>Categoria</label>
+          <select [(ngModel)]="form.categoryId">
+            <option value="">Selecione...</option>
+            @for (cat of categories(); track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+      }
+      <div class="form-group">
+        <label>Limite Mensal (R$)</label>
+        <input type="number" min="0" step="0.01" [(ngModel)]="form.plannedAmount" />
+      </div>
+
+      <div class="modal__footer">
+        <button class="btn btn--ghost" (click)="closeForm()">Cancelar</button>
+        <button class="btn btn--primary" (click)="save()" [disabled]="!editing() && !form.categoryId">Salvar</button>
+      </div>
+    </div>
+  </div>
+}

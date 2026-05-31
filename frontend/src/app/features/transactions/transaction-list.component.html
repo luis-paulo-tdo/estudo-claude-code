@@ -1,0 +1,119 @@
+<div class="page-header">
+  <h1>Lançamentos</h1>
+  <button class="btn btn--primary" (click)="openCreate()">+ Novo Lançamento</button>
+</div>
+
+<div class="filters card">
+  <button class="btn btn--ghost" (click)="prevMonth()">‹</button>
+  <span class="month-label">{{ monthLabel }}</span>
+  <button class="btn btn--ghost" (click)="nextMonth()">›</button>
+</div>
+
+<div class="card">
+  @if (transactions().length === 0) {
+    <div class="empty-state">
+      <div class="empty-state__icon">💳</div>
+      <p>Nenhum lançamento neste mês.</p>
+    </div>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Descrição</th>
+          <th>Categoria</th>
+          <th>Tipo</th>
+          <th style="text-align:right">Valor</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (t of transactions(); track t.id) {
+          <tr>
+            <td>{{ t.date | date:'dd/MM/yyyy' }}</td>
+            <td>
+              {{ t.description }}
+              @if (t.isRecurring) { <span class="badge badge--info">Fixo</span> }
+            </td>
+            <td>
+              <div class="cat-cell">
+                <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'"></span>
+                {{ t.categoryName }}
+              </div>
+            </td>
+            <td>
+              <span class="badge" [class]="t.type === 'Income' ? 'badge--income' : 'badge--expense'">
+                {{ t.type === 'Income' ? 'Receita' : 'Despesa' }}
+              </span>
+            </td>
+            <td style="text-align:right; font-weight:600"
+                [style.color]="t.type === 'Income' ? 'var(--color-income)' : 'var(--color-expense)'">
+              {{ t.type === 'Income' ? '+' : '-' }}{{ t.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+            </td>
+            <td class="actions">
+              <button class="btn btn--ghost btn--sm" (click)="openEdit(t)">Editar</button>
+              <button class="btn btn--danger btn--sm" (click)="delete(t.id)">Excluir</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
+
+@if (showForm()) {
+  <div class="modal-backdrop" (click)="closeForm()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal__header">
+        <h2>{{ editing() ? 'Editar Lançamento' : 'Novo Lançamento' }}</h2>
+        <button class="btn btn--ghost btn--sm" (click)="closeForm()">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label>Tipo</label>
+        <select [(ngModel)]="form.type">
+          <option value="Income">Receita</option>
+          <option value="Expense">Despesa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Data</label>
+        <input type="date" [(ngModel)]="form.date" />
+      </div>
+      <div class="form-group">
+        <label>Valor (R$)</label>
+        <input type="number" min="0" step="0.01" [(ngModel)]="form.amount" />
+      </div>
+      <div class="form-group">
+        <label>Descrição</label>
+        <input type="text" [(ngModel)]="form.description" placeholder="Ex: Mercado, Salário..." />
+      </div>
+      <div class="form-group">
+        <label>Categoria</label>
+        <select [(ngModel)]="form.categoryId">
+          <option value="">Selecione...</option>
+          @for (cat of categories(); track cat.id) {
+            <option [value]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="form.isRecurring" />
+          Lançamento fixo (recorrente)
+        </label>
+      </div>
+      @if (form.isRecurring) {
+        <div class="form-group">
+          <label>Dia de vencimento</label>
+          <input type="number" min="1" max="31" [(ngModel)]="form.recurrenceDay" />
+        </div>
+      }
+
+      <div class="modal__footer">
+        <button class="btn btn--ghost" (click)="closeForm()">Cancelar</button>
+        <button class="btn btn--primary" (click)="save()" [disabled]="!form.categoryId || !form.amount">Salvar</button>
+      </div>
+    </div>
+  </div>
+}
