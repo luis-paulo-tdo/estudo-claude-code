@@ -83,3 +83,17 @@
 - Podem ser demandados cadastros em plataformas com o objetivo de obter API Keys.
 - Caso a execução de algum comando dê erro, você pode copiar a mensagem para o Agente.
 - A interação com a Inteligência Artificial agora é contínua, ambos trabalham juntos.
+
+### 3.2. Consertando Contraste de Cores
+- Podemos adicionar novas Skills ao Claude Code para, por exemplo, melhorar o layout.
+- Ao pedir ao Agente uma Skill, ele proverá um comando novo que pode ser executado.
+- Com isso, a gente desenvolve capacidades e dá contextos que ajudam o Agente.
+- As Skills podem ser criadas manualmente, explicando ao Claude uma habilidade.
+- A recomendação é que as Skills sejam direcionadas para atividades rotineiras.
+
+### 3.3. A Carreira de Especialista de Inteligência Artificial
+- A Carreira vai além do Claude, ajudando a entender como funciona e o que dá para fazer com a IA.
+
+## 4. Publicando a Aplicação
+
+### 4.1. Realizando a Publicação
