@@ -47,7 +47,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         modelBuilder.Entity<Category>().HasData(
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000001"), Name = "Salário", Color = "#4CAF50", IsDefault = true },
-            new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000002"), Name = "Freelance", Color = "#8BC34A", IsDefault = true },
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000003"), Name = "Investimentos", Color = "#009688", IsDefault = true },
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000004"), Name = "Moradia", Color = "#2196F3", IsDefault = true },
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000005"), Name = "Alimentação", Color = "#FF9800", IsDefault = true },
