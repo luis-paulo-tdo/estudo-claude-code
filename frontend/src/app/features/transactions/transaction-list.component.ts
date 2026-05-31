@@ -70,7 +70,8 @@ export class TransactionListComponent implements OnInit {
   closeForm() { this.showForm.set(false); }
 
   get monthLabel() {
-    return new Date(this.filterYear, this.filterMonth - 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+    const label = new Date(this.filterYear, this.filterMonth - 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+    return label.charAt(0).toUpperCase() + label.slice(1);
   }
 
   prevMonth() {

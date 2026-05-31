@@ -50,7 +50,8 @@ export class DashboardComponent implements OnInit {
   }
 
   get monthLabel() {
-    return new Date(this.year, this.month - 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+    const label = new Date(this.year, this.month - 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+    return label.charAt(0).toUpperCase() + label.slice(1);
   }
 
   budgetPercent(spent: number, planned: number | null): number {
