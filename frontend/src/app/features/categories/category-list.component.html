@@ -6,14 +6,14 @@
 <div class="card">
   @if (categories().length === 0) {
     <div class="empty-state">
-      <div class="empty-state__icon">🏷️</div>
+      <div class="empty-state__icon" aria-hidden="true">🏷️</div>
       <p>Nenhuma categoria encontrada.</p>
     </div>
   } @else {
-    <div class="category-grid">
+    <div class="category-grid" role="list">
       @for (cat of categories(); track cat.id) {
-        <div class="cat-card">
-          <div class="cat-card__color" [style.background]="cat.color ?? '#9E9E9E'"></div>
+        <div class="cat-card" role="listitem">
+          <div class="cat-card__color" [style.background]="cat.color ?? '#9E9E9E'" aria-hidden="true"></div>
           <div class="cat-card__info">
             <span class="cat-card__name">{{ cat.name }}</span>
             @if (cat.isDefault) {
@@ -21,9 +21,9 @@
             }
           </div>
           <div class="cat-card__actions">
-            <button class="btn btn--ghost btn--sm" (click)="openEdit(cat)">Editar</button>
+            <button class="btn btn--ghost btn--sm" (click)="openEdit(cat)" [attr.aria-label]="'Editar categoria ' + cat.name">Editar</button>
             @if (!cat.isDefault) {
-              <button class="btn btn--danger btn--sm" (click)="delete(cat)">Excluir</button>
+              <button class="btn btn--danger btn--sm" (click)="delete(cat)" [attr.aria-label]="'Excluir categoria ' + cat.name">Excluir</button>
             }
           </div>
         </div>
@@ -34,24 +34,31 @@
 
 @if (showForm()) {
   <div class="modal-backdrop" (click)="closeForm()">
-    <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="category-modal-title"
+      (click)="$event.stopPropagation()"
+      (keydown.escape)="closeForm()">
       <div class="modal__header">
-        <h2>{{ editing() ? 'Editar Categoria' : 'Nova Categoria' }}</h2>
-        <button class="btn btn--ghost btn--sm" (click)="closeForm()">✕</button>
+        <h2 id="category-modal-title">{{ editing() ? 'Editar Categoria' : 'Nova Categoria' }}</h2>
+        <button class="btn btn--ghost btn--sm" (click)="closeForm()" aria-label="Fechar diálogo">✕</button>
       </div>
 
       <div class="form-group">
-        <label>Nome</label>
-        <input type="text" [(ngModel)]="form.name" placeholder="Ex: Academia, Streaming..." />
+        <label for="c-name">Nome</label>
+        <input id="c-name" type="text" [(ngModel)]="form.name" placeholder="Ex: Academia, Streaming..." />
       </div>
 
       <div class="form-group">
         <label>Cor</label>
-        <div class="color-picker">
+        <div class="color-picker" role="group" aria-label="Selecione uma cor">
           @for (color of colorOptions; track color) {
             <button class="color-swatch"
               [style.background]="color"
               [class.color-swatch--selected]="form.color === color"
+              [attr.aria-label]="'Cor ' + color"
+              [attr.aria-pressed]="form.color === color"
               (click)="form.color = color">
             </button>
           }

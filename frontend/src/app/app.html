@@ -1,36 +1,38 @@
-<nav class="sidebar">
-  <div class="sidebar__brand">
+<a href="#main-content" class="skip-link">Pular para conteúdo principal</a>
+
+<nav class="sidebar" aria-label="Navegação principal">
+  <div class="sidebar__brand" aria-hidden="true">
     <span class="sidebar__brand-icon">💰</span>
     <span class="sidebar__brand-name">FinanceApp</span>
   </div>
   <ul class="sidebar__nav">
     <li>
       <a routerLink="/dashboard" routerLinkActive="sidebar__nav-item--active" class="sidebar__nav-item">
-        <span class="sidebar__nav-icon">📊</span>
+        <span class="sidebar__nav-icon" aria-hidden="true">📊</span>
         <span>Dashboard</span>
       </a>
     </li>
     <li>
       <a routerLink="/transactions" routerLinkActive="sidebar__nav-item--active" class="sidebar__nav-item">
-        <span class="sidebar__nav-icon">💳</span>
+        <span class="sidebar__nav-icon" aria-hidden="true">💳</span>
         <span>Lançamentos</span>
       </a>
     </li>
     <li>
       <a routerLink="/budgets" routerLinkActive="sidebar__nav-item--active" class="sidebar__nav-item">
-        <span class="sidebar__nav-icon">🎯</span>
+        <span class="sidebar__nav-icon" aria-hidden="true">🎯</span>
         <span>Orçamentos</span>
       </a>
     </li>
     <li>
       <a routerLink="/categories" routerLinkActive="sidebar__nav-item--active" class="sidebar__nav-item">
-        <span class="sidebar__nav-icon">🏷️</span>
+        <span class="sidebar__nav-icon" aria-hidden="true">🏷️</span>
         <span>Categorias</span>
       </a>
     </li>
   </ul>
 </nav>
 
-<main class="main-content">
+<main class="main-content" id="main-content">
   <router-outlet />
 </main>

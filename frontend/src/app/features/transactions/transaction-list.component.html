@@ -4,27 +4,27 @@
 </div>
 
 <div class="filters card">
-  <button class="btn btn--ghost" (click)="prevMonth()">‹</button>
-  <span class="month-label">{{ monthLabel }}</span>
-  <button class="btn btn--ghost" (click)="nextMonth()">›</button>
+  <button class="btn btn--ghost" (click)="prevMonth()" aria-label="Mês anterior">‹</button>
+  <span class="month-label" aria-live="polite">{{ monthLabel }}</span>
+  <button class="btn btn--ghost" (click)="nextMonth()" aria-label="Próximo mês">›</button>
 </div>
 
 <div class="card">
   @if (transactions().length === 0) {
     <div class="empty-state">
-      <div class="empty-state__icon">💳</div>
+      <div class="empty-state__icon" aria-hidden="true">💳</div>
       <p>Nenhum lançamento neste mês.</p>
     </div>
   } @else {
-    <table>
+    <table aria-label="Lista de lançamentos">
       <thead>
         <tr>
-          <th>Data / Hora</th>
-          <th>Descrição</th>
-          <th>Categoria</th>
-          <th>Tipo</th>
-          <th style="text-align:right">Valor</th>
-          <th></th>
+          <th scope="col">Data / Hora</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Tipo</th>
+          <th scope="col" style="text-align:right">Valor</th>
+          <th scope="col"><span class="sr-only">Ações</span></th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +37,7 @@
             </td>
             <td>
               <div class="cat-cell">
-                <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'"></span>
+                <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'" aria-hidden="true"></span>
                 {{ t.categoryName }}
               </div>
             </td>
@@ -51,8 +51,8 @@
               {{ t.type === 'Income' ? '+' : '-' }}{{ t.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
             </td>
             <td class="actions">
-              <button class="btn btn--ghost btn--sm" (click)="openEdit(t)">Editar</button>
-              <button class="btn btn--danger btn--sm" (click)="delete(t.id)">Excluir</button>
+              <button class="btn btn--ghost btn--sm" (click)="openEdit(t)" [attr.aria-label]="'Editar ' + t.description">Editar</button>
+              <button class="btn btn--danger btn--sm" (click)="delete(t.id)" [attr.aria-label]="'Excluir ' + t.description">Excluir</button>
             </td>
           </tr>
         }
@@ -63,34 +63,39 @@
 
 @if (showForm()) {
   <div class="modal-backdrop" (click)="closeForm()">
-    <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="transaction-modal-title"
+      (click)="$event.stopPropagation()"
+      (keydown.escape)="closeForm()">
       <div class="modal__header">
-        <h2>{{ editing() ? 'Editar Lançamento' : 'Novo Lançamento' }}</h2>
-        <button class="btn btn--ghost btn--sm" (click)="closeForm()">✕</button>
+        <h2 id="transaction-modal-title">{{ editing() ? 'Editar Lançamento' : 'Novo Lançamento' }}</h2>
+        <button class="btn btn--ghost btn--sm" (click)="closeForm()" aria-label="Fechar diálogo">✕</button>
       </div>
 
       <div class="form-group">
-        <label>Tipo</label>
-        <select [(ngModel)]="form.type">
+        <label for="t-type">Tipo</label>
+        <select id="t-type" [(ngModel)]="form.type">
           <option value="Income">Receita</option>
           <option value="Expense">Despesa</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Data / Hora</label>
-        <input type="datetime-local" [(ngModel)]="form.date" />
+        <label for="t-date">Data / Hora</label>
+        <input id="t-date" type="datetime-local" [(ngModel)]="form.date" />
       </div>
       <div class="form-group">
-        <label>Valor (R$)</label>
-        <input type="number" min="0" step="0.01" [(ngModel)]="form.amount" />
+        <label for="t-amount">Valor (R$)</label>
+        <input id="t-amount" type="number" min="0" step="0.01" [(ngModel)]="form.amount" />
       </div>
       <div class="form-group">
-        <label>Descrição</label>
-        <input type="text" [(ngModel)]="form.description" placeholder="Ex: Mercado, Salário..." />
+        <label for="t-description">Descrição</label>
+        <input id="t-description" type="text" [(ngModel)]="form.description" placeholder="Ex: Mercado, Salário..." />
       </div>
       <div class="form-group">
-        <label>Categoria</label>
-        <select [(ngModel)]="form.categoryId">
+        <label for="t-category">Categoria</label>
+        <select id="t-category" [(ngModel)]="form.categoryId">
           <option value="">Selecione...</option>
           @for (cat of categories(); track cat.id) {
             <option [value]="cat.id">{{ cat.name }}</option>
@@ -98,15 +103,15 @@
         </select>
       </div>
       <div class="form-group">
-        <label>
-          <input type="checkbox" [(ngModel)]="form.isRecurring" />
+        <label for="t-recurring">
+          <input id="t-recurring" type="checkbox" [(ngModel)]="form.isRecurring" />
           Lançamento fixo (recorrente)
         </label>
       </div>
       @if (form.isRecurring) {
         <div class="form-group">
-          <label>Dia de vencimento</label>
-          <input type="number" min="1" max="31" [(ngModel)]="form.recurrenceDay" />
+          <label for="t-recurrence-day">Dia de vencimento</label>
+          <input id="t-recurrence-day" type="number" min="1" max="31" [(ngModel)]="form.recurrenceDay" />
         </div>
       }
 
@@ -114,8 +119,8 @@
         <summary>Detalhes de preço por quantidade (opcional)</summary>
         <div class="pricing-fields">
           <div class="form-group">
-            <label>Unidade de medida</label>
-            <select [(ngModel)]="form.unit">
+            <label for="t-unit">Unidade de medida</label>
+            <select id="t-unit" [(ngModel)]="form.unit">
               <option [ngValue]="null">Selecione...</option>
               <option value="Unidade">Unidade</option>
               <option value="Dúzia">Dúzia</option>
@@ -130,12 +135,12 @@
           </div>
           <div class="pricing-row">
             <div class="form-group">
-              <label>Quantidade</label>
-              <input type="number" min="0" step="0.001" [(ngModel)]="form.quantity" placeholder="Ex: 2.5" />
+              <label for="t-quantity">Quantidade</label>
+              <input id="t-quantity" type="number" min="0" step="0.001" [(ngModel)]="form.quantity" placeholder="Ex: 2.5" />
             </div>
             <div class="form-group">
-              <label>Preço por {{ form.unit || 'unidade' }} (R$)</label>
-              <input type="number" min="0" step="0.01" [(ngModel)]="form.unitPrice" placeholder="Ex: 8.90" />
+              <label for="t-unit-price">Preço por {{ form.unit || 'unidade' }} (R$)</label>
+              <input id="t-unit-price" type="number" min="0" step="0.01" [(ngModel)]="form.unitPrice" placeholder="Ex: 8.90" />
             </div>
           </div>
         </div>

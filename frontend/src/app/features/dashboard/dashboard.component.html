@@ -1,9 +1,9 @@
 <div class="page-header">
   <h1>Dashboard</h1>
   <div class="month-nav">
-    <button class="btn btn--ghost" (click)="prevMonth()">‹</button>
-    <span class="month-label">{{ monthLabel }}</span>
-    <button class="btn btn--ghost" (click)="nextMonth()">›</button>
+    <button class="btn btn--ghost" (click)="prevMonth()" aria-label="Mês anterior">‹</button>
+    <span class="month-label" aria-live="polite">{{ monthLabel }}</span>
+    <button class="btn btn--ghost" (click)="nextMonth()" aria-label="Próximo mês">›</button>
   </div>
 </div>
 
@@ -43,7 +43,7 @@
             <div class="category-item">
               <div class="category-item__header">
                 <div class="category-item__name">
-                  <span class="color-dot" [style.background]="cat.categoryColor ?? '#9E9E9E'"></span>
+                  <span class="color-dot" [style.background]="cat.categoryColor ?? '#9E9E9E'" aria-hidden="true"></span>
                   {{ cat.categoryName }}
                 </div>
                 <div class="category-item__amounts">
@@ -91,7 +91,7 @@
       <div class="card">
         <div class="card-title-row">
           <h2 class="card-title">Últimos Lançamentos</h2>
-          <a routerLink="/transactions" class="btn btn--ghost btn--sm">Ver todos</a>
+          <a routerLink="/transactions" class="btn btn--ghost btn--sm" aria-label="Ver todos os lançamentos">Ver todos</a>
         </div>
         @if (d.recentTransactions.length === 0) {
           <div class="empty-state">
@@ -102,7 +102,7 @@
           <div class="transaction-list">
             @for (t of d.recentTransactions; track t.id) {
               <div class="transaction-item">
-                <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'"></span>
+                <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'" aria-hidden="true"></span>
                 <div class="transaction-item__info">
                   <p class="transaction-item__desc">{{ t.description }}</p>
                   <p class="transaction-item__meta">{{ t.categoryName }} · {{ t.date | date:'dd/MM HH:mm' }}</p>
