@@ -19,7 +19,7 @@
     <table>
       <thead>
         <tr>
-          <th>Data</th>
+          <th>Data / Hora</th>
           <th>Descrição</th>
           <th>Categoria</th>
           <th>Tipo</th>
@@ -30,7 +30,7 @@
       <tbody>
         @for (t of transactions(); track t.id) {
           <tr>
-            <td>{{ t.date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ t.date | date:'dd/MM/yyyy HH:mm' }}</td>
             <td>
               {{ t.description }}
               @if (t.isRecurring) { <span class="badge badge--info">Fixo</span> }
@@ -77,8 +77,8 @@
         </select>
       </div>
       <div class="form-group">
-        <label>Data</label>
-        <input type="date" [(ngModel)]="form.date" />
+        <label>Data / Hora</label>
+        <input type="datetime-local" [(ngModel)]="form.date" />
       </div>
       <div class="form-group">
         <label>Valor (R$)</label>

@@ -4,7 +4,7 @@ namespace FinanceApp.Application.DTOs;
 
 public record TransactionDto(
     Guid Id,
-    DateOnly Date,
+    DateTime Date,
     decimal Amount,
     string Description,
     TransactionType Type,
@@ -15,7 +15,7 @@ public record TransactionDto(
     int? RecurrenceDay);
 
 public record CreateTransactionDto(
-    DateOnly Date,
+    DateTime Date,
     decimal Amount,
     string Description,
     TransactionType Type,
@@ -24,7 +24,7 @@ public record CreateTransactionDto(
     int? RecurrenceDay);
 
 public record UpdateTransactionDto(
-    DateOnly Date,
+    DateTime Date,
     decimal Amount,
     string Description,
     TransactionType Type,

@@ -85,7 +85,8 @@ export class TransactionListComponent implements OnInit {
   }
 
   private emptyForm(): CreateTransaction {
-    const today = new Date().toISOString().split('T')[0];
-    return { date: today, amount: 0, description: '', type: 'Expense', categoryId: '', isRecurring: false, recurrenceDay: null };
+    const now = new Date();
+    const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    return { date: local, amount: 0, description: '', type: 'Expense', categoryId: '', isRecurring: false, recurrenceDay: null };
   }
 }

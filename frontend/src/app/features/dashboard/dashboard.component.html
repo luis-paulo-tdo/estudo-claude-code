@@ -105,7 +105,7 @@
                 <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'"></span>
                 <div class="transaction-item__info">
                   <p class="transaction-item__desc">{{ t.description }}</p>
-                  <p class="transaction-item__meta">{{ t.categoryName }} · {{ t.date | date:'dd/MM' }}</p>
+                  <p class="transaction-item__meta">{{ t.categoryName }} · {{ t.date | date:'dd/MM HH:mm' }}</p>
                 </div>
                 <span class="transaction-item__amount" [class.income]="t.type === 'Income'" [class.expense]="t.type === 'Expense'">
                   {{ t.type === 'Income' ? '+' : '-' }}{{ t.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
