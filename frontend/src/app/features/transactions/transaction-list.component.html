@@ -21,6 +21,7 @@
         <tr>
           <th scope="col">Data / Hora</th>
           <th scope="col">Descrição</th>
+          <th scope="col">Estabelecimento</th>
           <th scope="col">Categoria</th>
           <th scope="col">Tipo</th>
           <th scope="col" style="text-align:right">Valor</th>
@@ -35,6 +36,7 @@
               {{ t.description }}
               @if (t.isRecurring) { <span class="badge badge--info">Fixo</span> }
             </td>
+            <td class="text-muted">{{ t.establishment || '—' }}</td>
             <td>
               <div class="cat-cell">
                 <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'" aria-hidden="true"></span>
@@ -92,6 +94,10 @@
       <div class="form-group">
         <label for="t-description">Descrição</label>
         <input id="t-description" type="text" [(ngModel)]="form.description" placeholder="Ex: Mercado, Salário..." />
+      </div>
+      <div class="form-group">
+        <label for="t-establishment">Estabelecimento <span class="optional">(opcional)</span></label>
+        <input id="t-establishment" type="text" [(ngModel)]="form.establishment" placeholder="Ex: Supermercado Extra, iFood..." />
       </div>
       <div class="form-group">
         <label for="t-category">Categoria</label>

@@ -47,6 +47,7 @@ public class TransactionsController(AppDbContext db) : ControllerBase
             CategoryId = dto.CategoryId,
             IsRecurring = dto.IsRecurring,
             RecurrenceDay = dto.RecurrenceDay,
+            Establishment = dto.Establishment,
             UnitPrice = dto.UnitPrice,
             Quantity = dto.Quantity,
             Unit = dto.Unit,
@@ -74,6 +75,7 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         transaction.CategoryId = dto.CategoryId;
         transaction.IsRecurring = dto.IsRecurring;
         transaction.RecurrenceDay = dto.RecurrenceDay;
+        transaction.Establishment = dto.Establishment;
         transaction.UnitPrice = dto.UnitPrice;
         transaction.Quantity = dto.Quantity;
         transaction.Unit = dto.Unit;
@@ -97,5 +99,5 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         new(t.Id, t.Date, t.Amount, t.Description, t.Type,
             t.CategoryId, t.Category.Name, t.Category.Color,
             t.IsRecurring, t.RecurrenceDay,
-            t.UnitPrice, t.Quantity, t.Unit);
+            t.Establishment, t.UnitPrice, t.Quantity, t.Unit);
 }

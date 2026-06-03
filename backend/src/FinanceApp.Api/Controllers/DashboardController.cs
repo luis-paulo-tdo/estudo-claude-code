@@ -59,7 +59,7 @@ public class DashboardController(AppDbContext db) : ControllerBase
                 t.Id, t.Date, t.Amount, t.Description, t.Type,
                 t.CategoryId, t.Category.Name, t.Category.Color,
                 t.IsRecurring, t.RecurrenceDay,
-                t.UnitPrice, t.Quantity, t.Unit));
+                t.Establishment, t.UnitPrice, t.Quantity, t.Unit));
 
         return new DashboardDto(y, m, totalIncome, totalExpenses, totalIncome - totalExpenses, categorySummaries, recentTransactions);
     }
