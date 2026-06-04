@@ -18,7 +18,10 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         [FromQuery] Guid? categoryId,
         [FromQuery] TransactionType? type)
     {
-        var query = db.Transactions.Include(t => t.Category).AsQueryable();
+        var query = db.Transactions
+            .Include(t => t.Category)
+            .Include(t => t.Establishment)
+            .AsQueryable();
 
         if (month.HasValue) query = query.Where(t => t.Date.Month == month.Value);
         if (year.HasValue) query = query.Where(t => t.Date.Year == year.Value);
@@ -37,6 +40,9 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         var category = await db.Categories.FindAsync(dto.CategoryId);
         if (category is null) return BadRequest("Categoria não encontrada.");
 
+        if (dto.EstablishmentId.HasValue && !await db.Establishments.AnyAsync(e => e.Id == dto.EstablishmentId))
+            return BadRequest("Estabelecimento não encontrado.");
+
         var transaction = new Transaction
         {
             Id = Guid.NewGuid(),
@@ -47,7 +53,7 @@ public class TransactionsController(AppDbContext db) : ControllerBase
             CategoryId = dto.CategoryId,
             IsRecurring = dto.IsRecurring,
             RecurrenceDay = dto.RecurrenceDay,
-            Establishment = dto.Establishment,
+            EstablishmentId = dto.EstablishmentId,
             UnitPrice = dto.UnitPrice,
             Quantity = dto.Quantity,
             Unit = dto.Unit,
@@ -56,6 +62,7 @@ public class TransactionsController(AppDbContext db) : ControllerBase
 
         db.Transactions.Add(transaction);
         await db.SaveChangesAsync();
+        await db.Entry(transaction).Reference(t => t.Establishment).LoadAsync();
         return CreatedAtAction(nameof(GetAll), MapToDto(transaction));
     }
 
@@ -65,8 +72,11 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         var transaction = await db.Transactions.FindAsync(id);
         if (transaction is null) return NotFound();
 
-        var categoryExists = await db.Categories.AnyAsync(c => c.Id == dto.CategoryId);
-        if (!categoryExists) return BadRequest("Categoria não encontrada.");
+        if (!await db.Categories.AnyAsync(c => c.Id == dto.CategoryId))
+            return BadRequest("Categoria não encontrada.");
+
+        if (dto.EstablishmentId.HasValue && !await db.Establishments.AnyAsync(e => e.Id == dto.EstablishmentId))
+            return BadRequest("Estabelecimento não encontrado.");
 
         transaction.Date = dto.Date;
         transaction.Amount = dto.Amount;
@@ -75,7 +85,7 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         transaction.CategoryId = dto.CategoryId;
         transaction.IsRecurring = dto.IsRecurring;
         transaction.RecurrenceDay = dto.RecurrenceDay;
-        transaction.Establishment = dto.Establishment;
+        transaction.EstablishmentId = dto.EstablishmentId;
         transaction.UnitPrice = dto.UnitPrice;
         transaction.Quantity = dto.Quantity;
         transaction.Unit = dto.Unit;
@@ -99,5 +109,6 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         new(t.Id, t.Date, t.Amount, t.Description, t.Type,
             t.CategoryId, t.Category.Name, t.Category.Color,
             t.IsRecurring, t.RecurrenceDay,
-            t.Establishment, t.UnitPrice, t.Quantity, t.Unit);
+            t.EstablishmentId, t.Establishment?.Name,
+            t.UnitPrice, t.Quantity, t.Unit);
 }

@@ -11,7 +11,8 @@ export interface Transaction {
   categoryColor: string | null;
   isRecurring: boolean;
   recurrenceDay: number | null;
-  establishment: string | null;
+  establishmentId: string | null;
+  establishmentName: string | null;
   unitPrice: number | null;
   quantity: number | null;
   unit: string | null;
@@ -25,7 +26,7 @@ export interface CreateTransaction {
   categoryId: string;
   isRecurring: boolean;
   recurrenceDay: number | null;
-  establishment: string | null;
+  establishmentId: string | null;
   unitPrice: number | null;
   quantity: number | null;
   unit: string | null;

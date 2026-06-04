@@ -8,6 +8,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<Budget> Budgets => Set<Budget>();
+    public DbSet<Establishment> Establishments => Set<Establishment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -16,6 +17,12 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             e.HasKey(c => c.Id);
             e.Property(c => c.Name).IsRequired().HasMaxLength(100);
             e.Property(c => c.Color).HasMaxLength(7);
+        });
+
+        modelBuilder.Entity<Establishment>(e =>
+        {
+            e.HasKey(es => es.Id);
+            e.Property(es => es.Name).IsRequired().HasMaxLength(150);
         });
 
         modelBuilder.Entity<Transaction>(e =>
@@ -27,6 +34,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
              .WithMany(c => c.Transactions)
              .HasForeignKey(t => t.CategoryId)
              .OnDelete(DeleteBehavior.Restrict);
+            e.HasOne(t => t.Establishment)
+             .WithMany(es => es.Transactions)
+             .HasForeignKey(t => t.EstablishmentId)
+             .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<Budget>(e =>

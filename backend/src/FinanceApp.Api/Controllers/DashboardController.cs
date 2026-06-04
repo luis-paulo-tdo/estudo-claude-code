@@ -19,6 +19,7 @@ public class DashboardController(AppDbContext db) : ControllerBase
 
         var transactions = await db.Transactions
             .Include(t => t.Category)
+            .Include(t => t.Establishment)
             .Where(t => t.Date.Month == m && t.Date.Year == y)
             .ToListAsync();
 
@@ -59,7 +60,8 @@ public class DashboardController(AppDbContext db) : ControllerBase
                 t.Id, t.Date, t.Amount, t.Description, t.Type,
                 t.CategoryId, t.Category.Name, t.Category.Color,
                 t.IsRecurring, t.RecurrenceDay,
-                t.Establishment, t.UnitPrice, t.Quantity, t.Unit));
+                t.EstablishmentId, t.Establishment?.Name,
+                t.UnitPrice, t.Quantity, t.Unit));
 
         return new DashboardDto(y, m, totalIncome, totalExpenses, totalIncome - totalExpenses, categorySummaries, recentTransactions);
     }

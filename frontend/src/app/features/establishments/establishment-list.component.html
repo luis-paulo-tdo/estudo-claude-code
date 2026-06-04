@@ -1,0 +1,51 @@
+<div class="page-header">
+  <h1>Estabelecimentos</h1>
+  <button class="btn btn--primary" (click)="openCreate()">+ Novo Estabelecimento</button>
+</div>
+
+<div class="card">
+  @if (establishments().length === 0) {
+    <div class="empty-state">
+      <div class="empty-state__icon" aria-hidden="true">🏪</div>
+      <p>Nenhum estabelecimento cadastrado.</p>
+    </div>
+  } @else {
+    <div class="list" role="list">
+      @for (e of establishments(); track e.id) {
+        <div class="list-item" role="listitem">
+          <span class="list-item__name">{{ e.name }}</span>
+          <div class="list-item__actions">
+            <button class="btn btn--ghost btn--sm" (click)="openEdit(e)" [attr.aria-label]="'Editar ' + e.name">Editar</button>
+            <button class="btn btn--danger btn--sm" (click)="delete(e)" [attr.aria-label]="'Excluir ' + e.name">Excluir</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (showForm()) {
+  <div class="modal-backdrop" (click)="closeForm()">
+    <div class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="estab-modal-title"
+      (click)="$event.stopPropagation()"
+      (keydown.escape)="closeForm()">
+      <div class="modal__header">
+        <h2 id="estab-modal-title">{{ editing() ? 'Editar Estabelecimento' : 'Novo Estabelecimento' }}</h2>
+        <button class="btn btn--ghost btn--sm" (click)="closeForm()" aria-label="Fechar diálogo">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label for="estab-name">Nome</label>
+        <input id="estab-name" type="text" [(ngModel)]="form.name" placeholder="Ex: Supermercado Extra, iFood..." />
+      </div>
+
+      <div class="modal__footer">
+        <button class="btn btn--ghost" (click)="closeForm()">Cancelar</button>
+        <button class="btn btn--primary" (click)="save()" [disabled]="!form.name">Salvar</button>
+      </div>
+    </div>
+  </div>
+}

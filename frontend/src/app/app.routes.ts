@@ -18,5 +18,9 @@ export const routes: Routes = [
     path: 'categories',
     loadComponent: () => import('./features/categories/category-list.component').then(m => m.CategoryListComponent)
   },
+  {
+    path: 'establishments',
+    loadComponent: () => import('./features/establishments/establishment-list.component').then(m => m.EstablishmentListComponent)
+  },
   { path: '**', redirectTo: 'dashboard' }
 ];

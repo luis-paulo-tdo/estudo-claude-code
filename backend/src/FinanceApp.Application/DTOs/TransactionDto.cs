@@ -13,7 +13,8 @@ public record TransactionDto(
     string? CategoryColor,
     bool IsRecurring,
     int? RecurrenceDay,
-    string? Establishment,
+    Guid? EstablishmentId,
+    string? EstablishmentName,
     decimal? UnitPrice,
     decimal? Quantity,
     string? Unit);
@@ -26,7 +27,7 @@ public record CreateTransactionDto(
     Guid CategoryId,
     bool IsRecurring,
     int? RecurrenceDay,
-    string? Establishment,
+    Guid? EstablishmentId,
     decimal? UnitPrice,
     decimal? Quantity,
     string? Unit);
@@ -39,7 +40,7 @@ public record UpdateTransactionDto(
     Guid CategoryId,
     bool IsRecurring,
     int? RecurrenceDay,
-    string? Establishment,
+    Guid? EstablishmentId,
     decimal? UnitPrice,
     decimal? Quantity,
     string? Unit);

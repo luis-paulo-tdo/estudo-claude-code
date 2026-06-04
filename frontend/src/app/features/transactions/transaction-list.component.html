@@ -33,10 +33,10 @@
           <tr>
             <td>{{ t.date | date:'dd/MM/yyyy HH:mm' }}</td>
             <td>
-              {{ t.description }}
+              {{ t.description }}@if (t.unit) { <span class="unit">({{ t.unit }})</span> }
               @if (t.isRecurring) { <span class="badge badge--info">Fixo</span> }
             </td>
-            <td class="text-muted">{{ t.establishment || '—' }}</td>
+            <td class="text-muted">{{ t.establishmentName || '—' }}</td>
             <td>
               <div class="cat-cell">
                 <span class="color-dot" [style.background]="t.categoryColor ?? '#9E9E9E'" aria-hidden="true"></span>
@@ -97,7 +97,12 @@
       </div>
       <div class="form-group">
         <label for="t-establishment">Estabelecimento <span class="optional">(opcional)</span></label>
-        <input id="t-establishment" type="text" [(ngModel)]="form.establishment" placeholder="Ex: Supermercado Extra, iFood..." />
+        <select id="t-establishment" [(ngModel)]="form.establishmentId">
+          <option [ngValue]="null">— Nenhum —</option>
+          @for (e of establishments(); track e.id) {
+            <option [value]="e.id">{{ e.name }}</option>
+          }
+        </select>
       </div>
       <div class="form-group">
         <label for="t-category">Categoria</label>

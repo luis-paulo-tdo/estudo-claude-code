@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TransactionService } from '../../core/services/transaction.service';
 import { CategoryService } from '../../core/services/category.service';
+import { EstablishmentService } from '../../core/services/establishment.service';
 import { Transaction, CreateTransaction, TransactionType } from '../../core/models/transaction.model';
 import { Category } from '../../core/models/category.model';
+import { Establishment } from '../../core/models/establishment.model';
 
 @Component({
   selector: 'app-transaction-list',
@@ -15,9 +17,11 @@ import { Category } from '../../core/models/category.model';
 export class TransactionListComponent implements OnInit {
   private service = inject(TransactionService);
   private categoryService = inject(CategoryService);
+  private establishmentService = inject(EstablishmentService);
 
   transactions = signal<Transaction[]>([]);
   categories = signal<Category[]>([]);
+  establishments = signal<Establishment[]>([]);
   showForm = signal(false);
   editing = signal<Transaction | null>(null);
 
@@ -29,6 +33,7 @@ export class TransactionListComponent implements OnInit {
 
   ngOnInit() {
     this.categoryService.getAll().subscribe(c => this.categories.set(c));
+    this.establishmentService.getAll().subscribe(e => this.establishments.set(e));
     this.load();
   }
 
@@ -47,7 +52,7 @@ export class TransactionListComponent implements OnInit {
     this.form = {
       date: t.date, amount: t.amount, description: t.description,
       type: t.type, categoryId: t.categoryId, isRecurring: t.isRecurring, recurrenceDay: t.recurrenceDay,
-      establishment: t.establishment, unitPrice: t.unitPrice, quantity: t.quantity, unit: t.unit
+      establishmentId: t.establishmentId, unitPrice: t.unitPrice, quantity: t.quantity, unit: t.unit
     };
     this.editing.set(t);
     this.showForm.set(true);
@@ -89,6 +94,6 @@ export class TransactionListComponent implements OnInit {
   private emptyForm(): CreateTransaction {
     const now = new Date();
     const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-    return { date: local, amount: 0, description: '', type: 'Expense', categoryId: '', isRecurring: false, recurrenceDay: null, establishment: null, unitPrice: null, quantity: null, unit: null };
+    return { date: local, amount: 0, description: '', type: 'Expense', categoryId: '', isRecurring: false, recurrenceDay: null, establishmentId: null, unitPrice: null, quantity: null, unit: null };
   }
 }
