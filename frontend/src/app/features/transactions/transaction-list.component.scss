@@ -35,6 +35,22 @@
   font-size: 12px;
 }
 
+.filter-panel {
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.filter-action {
+  padding-top: 18px;
+}
+
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

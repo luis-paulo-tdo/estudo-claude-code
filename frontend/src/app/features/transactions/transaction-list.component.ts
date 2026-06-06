@@ -31,6 +31,15 @@ export class TransactionListComponent implements OnInit {
   filterMonth = this.today.getMonth() + 1;
   filterYear = this.today.getFullYear();
 
+  filters = {
+    dateFrom: '',
+    dateTo: '',
+    description: '',
+    establishment: '',
+    categoryId: '',
+    type: '' as TransactionType | ''
+  };
+
   form: CreateTransaction = this.emptyForm();
 
   ngOnInit() {
@@ -40,8 +49,25 @@ export class TransactionListComponent implements OnInit {
   }
 
   load() {
-    this.service.getAll({ month: this.filterMonth, year: this.filterYear })
-      .subscribe(t => this.transactions.set(t));
+    this.service.getAll({
+      month: this.filterMonth,
+      year: this.filterYear,
+      dateFrom: this.filters.dateFrom || undefined,
+      dateTo: this.filters.dateTo || undefined,
+      description: this.filters.description || undefined,
+      establishment: this.filters.establishment || undefined,
+      categoryId: this.filters.categoryId || undefined,
+      type: (this.filters.type || undefined) as any
+    }).subscribe(t => this.transactions.set(t));
+  }
+
+  clearFilters() {
+    this.filters = { dateFrom: '', dateTo: '', description: '', establishment: '', categoryId: '', type: '' };
+    this.load();
+  }
+
+  get hasActiveFilters() {
+    return Object.values(this.filters).some(v => v !== '');
   }
 
   openCreate() {

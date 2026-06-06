@@ -7,12 +7,21 @@ export class TransactionService {
   private http = inject(HttpClient);
   private base = '/api/transactions';
 
-  getAll(filters?: { month?: number; year?: number; categoryId?: string; type?: TransactionType }) {
+  getAll(filters?: {
+    month?: number; year?: number;
+    categoryId?: string; type?: TransactionType;
+    dateFrom?: string; dateTo?: string;
+    description?: string; establishment?: string;
+  }) {
     let params = new HttpParams();
     if (filters?.month) params = params.set('month', filters.month);
     if (filters?.year) params = params.set('year', filters.year);
     if (filters?.categoryId) params = params.set('categoryId', filters.categoryId);
     if (filters?.type) params = params.set('type', filters.type);
+    if (filters?.dateFrom) params = params.set('dateFrom', filters.dateFrom);
+    if (filters?.dateTo) params = params.set('dateTo', filters.dateTo);
+    if (filters?.description) params = params.set('description', filters.description);
+    if (filters?.establishment) params = params.set('establishment', filters.establishment);
     return this.http.get<Transaction[]>(this.base, { params });
   }
 

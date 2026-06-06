@@ -16,7 +16,11 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         [FromQuery] int? month,
         [FromQuery] int? year,
         [FromQuery] Guid? categoryId,
-        [FromQuery] TransactionType? type)
+        [FromQuery] TransactionType? type,
+        [FromQuery] DateTime? dateFrom,
+        [FromQuery] DateTime? dateTo,
+        [FromQuery] string? description,
+        [FromQuery] string? establishment)
     {
         var query = db.Transactions
             .Include(t => t.Category)
@@ -25,8 +29,14 @@ public class TransactionsController(AppDbContext db) : ControllerBase
 
         if (month.HasValue) query = query.Where(t => t.Date.Month == month.Value);
         if (year.HasValue) query = query.Where(t => t.Date.Year == year.Value);
+        if (dateFrom.HasValue) query = query.Where(t => t.Date >= dateFrom.Value);
+        if (dateTo.HasValue) query = query.Where(t => t.Date <= dateTo.Value);
         if (categoryId.HasValue) query = query.Where(t => t.CategoryId == categoryId.Value);
         if (type.HasValue) query = query.Where(t => t.Type == type.Value);
+        if (!string.IsNullOrWhiteSpace(description))
+            query = query.Where(t => t.Description.Contains(description));
+        if (!string.IsNullOrWhiteSpace(establishment))
+            query = query.Where(t => t.Establishment != null && t.Establishment.Name.Contains(establishment));
 
         return await query
             .OrderByDescending(t => t.Date)

@@ -12,6 +12,49 @@
   <button class="btn btn--ghost" (click)="nextMonth()" aria-label="Próximo mês">›</button>
 </div>
 
+<div class="filter-panel card">
+  <div class="filter-grid">
+    <div class="form-group">
+      <label for="f-date-from">Período — De</label>
+      <input id="f-date-from" type="date" [(ngModel)]="filters.dateFrom" (change)="load()" />
+    </div>
+    <div class="form-group">
+      <label for="f-date-to">Até</label>
+      <input id="f-date-to" type="date" [(ngModel)]="filters.dateTo" (change)="load()" />
+    </div>
+    <div class="form-group">
+      <label for="f-type">Tipo</label>
+      <select id="f-type" [(ngModel)]="filters.type" (change)="load()">
+        <option value="">Todos</option>
+        <option value="Income">Receita</option>
+        <option value="Expense">Despesa</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="f-category">Categoria</label>
+      <select id="f-category" [(ngModel)]="filters.categoryId" (change)="load()">
+        <option value="">Todas</option>
+        @for (cat of categories(); track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="f-desc">Descrição</label>
+      <input id="f-desc" type="text" [(ngModel)]="filters.description" (input)="load()" placeholder="Buscar..." />
+    </div>
+    <div class="form-group">
+      <label for="f-estab">Estabelecimento</label>
+      <input id="f-estab" type="text" [(ngModel)]="filters.establishment" (input)="load()" placeholder="Buscar..." />
+    </div>
+    @if (hasActiveFilters) {
+      <div class="filter-action">
+        <button class="btn btn--ghost btn--sm" (click)="clearFilters()">Limpar filtros</button>
+      </div>
+    }
+  </div>
+</div>
+
 <div class="summary-cards">
   <div class="card summary-card summary-card--income">
     <p class="summary-card__label">Receitas</p>
