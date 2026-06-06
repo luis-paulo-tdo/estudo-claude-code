@@ -41,11 +41,11 @@
     </div>
     <div class="form-group">
       <label for="f-desc">Descrição</label>
-      <input id="f-desc" type="text" [(ngModel)]="filters.description" (input)="load()" placeholder="Buscar..." />
+      <input id="f-desc" type="text" [ngModel]="filters.description" (ngModelChange)="filters.description = $event; load()" placeholder="Buscar..." />
     </div>
     <div class="form-group">
       <label for="f-estab">Estabelecimento</label>
-      <input id="f-estab" type="text" [(ngModel)]="filters.establishment" (input)="load()" placeholder="Buscar..." />
+      <input id="f-estab" type="text" [ngModel]="filters.establishment" (ngModelChange)="filters.establishment = $event; load()" placeholder="Buscar..." />
     </div>
     <div class="form-group">
       <label aria-hidden="true" class="invisible-label">&nbsp;</label>

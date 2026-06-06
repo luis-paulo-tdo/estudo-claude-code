@@ -40,11 +40,19 @@ export class TransactionListComponent implements OnInit {
     type: '' as TransactionType | ''
   };
 
+  private setMonthDateRange() {
+    const lastDay = new Date(this.filterYear, this.filterMonth, 0).getDate();
+    const m = String(this.filterMonth).padStart(2, '0');
+    this.filters.dateFrom = `${this.filterYear}-${m}-01`;
+    this.filters.dateTo   = `${this.filterYear}-${m}-${String(lastDay).padStart(2, '0')}`;
+  }
+
   form: CreateTransaction = this.emptyForm();
 
   ngOnInit() {
     this.categoryService.getAll().subscribe(c => this.categories.set(c));
     this.establishmentService.getAll().subscribe(e => this.establishments.set(e));
+    this.setMonthDateRange();
     this.load();
   }
 
@@ -63,11 +71,20 @@ export class TransactionListComponent implements OnInit {
 
   clearFilters() {
     this.filters = { dateFrom: '', dateTo: '', description: '', establishment: '', categoryId: '', type: '' };
+    this.setMonthDateRange();
     this.load();
   }
 
   get hasActiveFilters() {
-    return Object.values(this.filters).some(v => v !== '');
+    const { dateFrom, dateTo, ...rest } = this.filters;
+    const defaultFrom = this.filters.dateFrom;
+    const defaultTo   = this.filters.dateTo;
+    const lastDay = new Date(this.filterYear, this.filterMonth, 0).getDate();
+    const m = String(this.filterMonth).padStart(2, '0');
+    const expectedFrom = `${this.filterYear}-${m}-01`;
+    const expectedTo   = `${this.filterYear}-${m}-${String(lastDay).padStart(2, '0')}`;
+    const datesChanged = dateFrom !== expectedFrom || dateTo !== expectedTo;
+    return datesChanged || Object.values(rest).some(v => v !== '');
   }
 
   openCreate() {
@@ -117,12 +134,14 @@ export class TransactionListComponent implements OnInit {
   prevMonth() {
     if (this.filterMonth === 1) { this.filterMonth = 12; this.filterYear--; }
     else this.filterMonth--;
+    this.setMonthDateRange();
     this.load();
   }
 
   nextMonth() {
     if (this.filterMonth === 12) { this.filterMonth = 1; this.filterYear++; }
     else this.filterMonth++;
+    this.setMonthDateRange();
     this.load();
   }
 
