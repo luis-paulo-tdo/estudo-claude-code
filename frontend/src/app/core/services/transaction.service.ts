@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Transaction, CreateTransaction, UpdateTransaction, TransactionType } from '../models/transaction.model';
+import { Transaction, CreateTransaction, UpdateTransaction, BulkCreateTransaction, TransactionType } from '../models/transaction.model';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
@@ -26,5 +26,9 @@ export class TransactionService {
 
   delete(id: string) {
     return this.http.delete<void>(`${this.base}/${id}`);
+  }
+
+  bulkCreate(dto: BulkCreateTransaction) {
+    return this.http.post<{ count: number }>(`${this.base}/bulk`, dto);
   }
 }

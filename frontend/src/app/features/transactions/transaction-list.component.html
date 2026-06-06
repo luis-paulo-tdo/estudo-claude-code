@@ -1,6 +1,9 @@
 <div class="page-header">
   <h1>Lançamentos</h1>
-  <button class="btn btn--primary" (click)="openCreate()">+ Novo Lançamento</button>
+  <div class="header-actions">
+    <button class="btn btn--ghost" (click)="showBulkForm.set(true)">Lançamento em Massa</button>
+    <button class="btn btn--primary" (click)="openCreate()">+ Novo Lançamento</button>
+  </div>
 </div>
 
 <div class="filters card">
@@ -78,6 +81,13 @@
     </table>
   }
 </div>
+
+@if (showBulkForm()) {
+  <app-bulk-transaction
+    (saved)="showBulkForm.set(false); load()"
+    (cancelled)="showBulkForm.set(false)">
+  </app-bulk-transaction>
+}
 
 @if (showForm()) {
   <div class="modal-backdrop">

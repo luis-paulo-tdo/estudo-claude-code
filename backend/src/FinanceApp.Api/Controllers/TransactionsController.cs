@@ -94,6 +94,43 @@ public class TransactionsController(AppDbContext db) : ControllerBase
         return NoContent();
     }
 
+    [HttpPost("bulk")]
+    public async Task<IActionResult> CreateBulk(BulkCreateTransactionDto dto)
+    {
+        if (!dto.Items.Any()) return BadRequest("Nenhum item informado.");
+
+        var categoryIds = dto.Items.Select(i => i.CategoryId).Distinct().ToList();
+        var categories = await db.Categories
+            .Where(c => categoryIds.Contains(c.Id))
+            .ToDictionaryAsync(c => c.Id);
+
+        var missing = categoryIds.Except(categories.Keys).ToList();
+        if (missing.Count > 0) return BadRequest($"Categorias não encontradas: {string.Join(", ", missing)}.");
+
+        if (dto.EstablishmentId.HasValue && !await db.Establishments.AnyAsync(e => e.Id == dto.EstablishmentId))
+            return BadRequest("Estabelecimento não encontrado.");
+
+        var transactions = dto.Items.Select(item => new Transaction
+        {
+            Id = Guid.NewGuid(),
+            Date = dto.Date,
+            Type = dto.Type,
+            EstablishmentId = dto.EstablishmentId,
+            CategoryId = item.CategoryId,
+            Description = item.Description,
+            Amount = item.Amount,
+            Quantity = item.Quantity,
+            Unit = item.Unit,
+            UnitPrice = item.UnitPrice,
+            IsRecurring = false,
+            Category = categories[item.CategoryId]
+        }).ToList();
+
+        db.Transactions.AddRange(transactions);
+        await db.SaveChangesAsync();
+        return Ok(new { count = transactions.Count });
+    }
+
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {

@@ -33,3 +33,19 @@ export interface CreateTransaction {
 }
 
 export interface UpdateTransaction extends CreateTransaction {}
+
+export interface BulkTransactionItem {
+  categoryId: string;
+  description: string;
+  amount: number | null;
+  quantity: number | null;
+  unit: string | null;
+  unitPrice: number | null;
+}
+
+export interface BulkCreateTransaction {
+  date: string;
+  type: TransactionType;
+  establishmentId: string | null;
+  items: BulkTransactionItem[];
+}

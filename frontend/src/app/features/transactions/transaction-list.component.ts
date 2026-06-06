@@ -7,10 +7,11 @@ import { EstablishmentService } from '../../core/services/establishment.service'
 import { Transaction, CreateTransaction, TransactionType } from '../../core/models/transaction.model';
 import { Category } from '../../core/models/category.model';
 import { Establishment } from '../../core/models/establishment.model';
+import { BulkTransactionComponent } from './bulk-transaction.component';
 
 @Component({
   selector: 'app-transaction-list',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, BulkTransactionComponent],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.scss'
 })
@@ -23,6 +24,7 @@ export class TransactionListComponent implements OnInit {
   categories = signal<Category[]>([]);
   establishments = signal<Establishment[]>([]);
   showForm = signal(false);
+  showBulkForm = signal(false);
   editing = signal<Transaction | null>(null);
 
   today = new Date();
