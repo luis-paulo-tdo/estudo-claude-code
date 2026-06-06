@@ -74,6 +74,13 @@ export class TransactionListComponent implements OnInit {
 
   closeForm() { this.showForm.set(false); }
 
+  get totals() {
+    const list = this.transactions();
+    const income   = list.filter(t => t.type === 'Income').reduce((s, t) => s + (t.amount ?? 0), 0);
+    const expenses = list.filter(t => t.type === 'Expense').reduce((s, t) => s + (t.amount ?? 0), 0);
+    return { income, expenses, balance: income - expenses };
+  }
+
   get monthLabel() {
     const label = new Date(this.filterYear, this.filterMonth - 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
     return label.charAt(0).toUpperCase() + label.slice(1);
@@ -94,6 +101,6 @@ export class TransactionListComponent implements OnInit {
   private emptyForm(): CreateTransaction {
     const now = new Date();
     const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-    return { date: local, amount: 0, description: '', type: 'Expense', categoryId: '', isRecurring: false, recurrenceDay: null, establishmentId: null, unitPrice: null, quantity: null, unit: null };
+    return { date: local, amount: null, description: '', type: 'Expense', categoryId: '', isRecurring: false, recurrenceDay: null, establishmentId: null, unitPrice: null, quantity: null, unit: null };
   }
 }

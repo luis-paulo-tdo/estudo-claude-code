@@ -92,8 +92,17 @@
 - A recomendação é que as Skills sejam direcionadas para atividades rotineiras.
 
 ### 3.3. A Carreira de Especialista de Inteligência Artificial
-- A Carreira vai além do Claude, ajudando a entender como funciona e o que dá para fazer com a IA.
+- A carreira vai além do Claude, ajudando a entender como funciona e o que dá para fazer com a IA.
 
 ## 4. Publicando a Aplicação
 
 ### 4.1. Realizando a Publicação
+- Caso as conversas com o Agente se prolonguem muito, ele precisará compactar os contextos.
+- Para evitar o acúmulo de contextos, deixe uma sessão para cada assunto que conversar.
+- O desenvolvimento e a implantação, por exemplo, podem estar em contextos diferentes.
+
+### 4.2. A Carreira de Front-end
+- A carreira ensinará como montar páginas em front-end desde o HTML/CSS até os principais Frameworks.
+
+### 4.3. Conclusão
+- Agora que o curso foi concluído, você consegue desenvolver aplicações utilizando Claude Code.

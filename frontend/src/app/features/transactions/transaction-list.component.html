@@ -9,6 +9,21 @@
   <button class="btn btn--ghost" (click)="nextMonth()" aria-label="Próximo mês">›</button>
 </div>
 
+<div class="summary-cards">
+  <div class="card summary-card summary-card--income">
+    <p class="summary-card__label">Receitas</p>
+    <p class="summary-card__value">{{ totals.income | currency:'BRL':'symbol':'1.2-2' }}</p>
+  </div>
+  <div class="card summary-card summary-card--expense">
+    <p class="summary-card__label">Despesas</p>
+    <p class="summary-card__value">{{ totals.expenses | currency:'BRL':'symbol':'1.2-2' }}</p>
+  </div>
+  <div class="card summary-card" [class.summary-card--positive]="totals.balance >= 0" [class.summary-card--negative]="totals.balance < 0">
+    <p class="summary-card__label">Saldo</p>
+    <p class="summary-card__value">{{ totals.balance | currency:'BRL':'symbol':'1.2-2' }}</p>
+  </div>
+</div>
+
 <div class="card">
   @if (transactions().length === 0) {
     <div class="empty-state">
@@ -33,7 +48,7 @@
           <tr>
             <td>{{ t.date | date:'dd/MM/yyyy HH:mm' }}</td>
             <td>
-              {{ t.description }}@if (t.unit) { <span class="unit">({{ t.unit }})</span> }
+              {{ t.description }}
               @if (t.isRecurring) { <span class="badge badge--info">Fixo</span> }
             </td>
             <td class="text-muted">{{ t.establishmentName || '—' }}</td>
@@ -50,7 +65,7 @@
             </td>
             <td style="text-align:right; font-weight:600"
                 [style.color]="t.type === 'Income' ? 'var(--color-income)' : 'var(--color-expense)'">
-              {{ t.type === 'Income' ? '+' : '-' }}{{ t.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+              {{ t.type === 'Income' ? '+' : '-' }}{{ t.amount | currency:'BRL':'symbol':'1.2-2' }}
             </td>
             <td class="actions">
               <button class="btn btn--ghost btn--sm" (click)="openEdit(t)" [attr.aria-label]="'Editar ' + t.description">Editar</button>
@@ -59,66 +74,76 @@
           </tr>
         }
       </tbody>
+
     </table>
   }
 </div>
 
 @if (showForm()) {
-  <div class="modal-backdrop" (click)="closeForm()">
+  <div class="modal-backdrop">
     <div class="modal"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="transaction-modal-title"
-      (click)="$event.stopPropagation()"
-      (keydown.escape)="closeForm()">
+      aria-labelledby="transaction-modal-title">
       <div class="modal__header">
         <h2 id="transaction-modal-title">{{ editing() ? 'Editar Lançamento' : 'Novo Lançamento' }}</h2>
         <button class="btn btn--ghost btn--sm" (click)="closeForm()" aria-label="Fechar diálogo">✕</button>
       </div>
 
-      <div class="form-group">
-        <label for="t-type">Tipo</label>
-        <select id="t-type" [(ngModel)]="form.type">
-          <option value="Income">Receita</option>
-          <option value="Expense">Despesa</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="t-type">Tipo</label>
+          <select id="t-type" [(ngModel)]="form.type">
+            <option value="Income">Receita</option>
+            <option value="Expense">Despesa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="t-date">Data / Hora</label>
+          <input id="t-date" type="datetime-local" [(ngModel)]="form.date" />
+        </div>
       </div>
-      <div class="form-group">
-        <label for="t-date">Data / Hora</label>
-        <input id="t-date" type="datetime-local" [(ngModel)]="form.date" />
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="t-category">Categoria</label>
+          <select id="t-category" [(ngModel)]="form.categoryId">
+            <option value="">Selecione...</option>
+            @for (cat of categories(); track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="t-recurring">Recorrente</label>
+          <select id="t-recurring" [(ngModel)]="form.isRecurring">
+            <option [ngValue]="true">Sim</option>
+            <option [ngValue]="false">Não</option>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="t-amount">Valor (R$)</label>
-        <input id="t-amount" type="number" min="0" step="0.01" [(ngModel)]="form.amount" />
-      </div>
+
       <div class="form-group">
         <label for="t-description">Descrição</label>
         <input id="t-description" type="text" [(ngModel)]="form.description" placeholder="Ex: Mercado, Salário..." />
       </div>
-      <div class="form-group">
-        <label for="t-establishment">Estabelecimento <span class="optional">(opcional)</span></label>
-        <select id="t-establishment" [(ngModel)]="form.establishmentId">
-          <option [ngValue]="null">— Nenhum —</option>
-          @for (e of establishments(); track e.id) {
-            <option [value]="e.id">{{ e.name }}</option>
-          }
-        </select>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="t-establishment">Estabelecimento <span class="optional">(opcional)</span></label>
+          <select id="t-establishment" [(ngModel)]="form.establishmentId">
+            <option [ngValue]="null">Nenhum</option>
+            @for (e of establishments(); track e.id) {
+              <option [value]="e.id">{{ e.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="t-amount">Valor (R$)</label>
+          <input id="t-amount" type="number" min="0" step="0.01" [(ngModel)]="form.amount" placeholder="0,00" />
+        </div>
       </div>
-      <div class="form-group">
-        <label for="t-category">Categoria</label>
-        <select id="t-category" [(ngModel)]="form.categoryId">
-          <option value="">Selecione...</option>
-          @for (cat of categories(); track cat.id) {
-            <option [value]="cat.id">{{ cat.name }}</option>
-          }
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="t-recurring">
-          <input id="t-recurring" type="checkbox" [(ngModel)]="form.isRecurring" />
-          Lançamento fixo (recorrente)
-        </label>
-      </div>
+
       @if (form.isRecurring) {
         <div class="form-group">
           <label for="t-recurrence-day">Dia de vencimento</label>

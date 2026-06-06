@@ -25,13 +25,11 @@
 </div>
 
 @if (showForm()) {
-  <div class="modal-backdrop" (click)="closeForm()">
+  <div class="modal-backdrop">
     <div class="modal"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="estab-modal-title"
-      (click)="$event.stopPropagation()"
-      (keydown.escape)="closeForm()">
+      aria-labelledby="estab-modal-title">
       <div class="modal__header">
         <h2 id="estab-modal-title">{{ editing() ? 'Editar Estabelecimento' : 'Novo Estabelecimento' }}</h2>
         <button class="btn btn--ghost btn--sm" (click)="closeForm()" aria-label="Fechar diálogo">✕</button>

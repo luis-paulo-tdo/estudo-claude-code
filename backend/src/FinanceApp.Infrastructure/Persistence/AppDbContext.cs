@@ -64,7 +64,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000006"), Name = "Transporte", Color = "#FF5722", IsDefault = true },
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000007"), Name = "Saúde", Color = "#E91E63", IsDefault = true },
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000008"), Name = "Educação", Color = "#9C27B0", IsDefault = true },
-            new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000009"), Name = "Lazer", Color = "#3F51B5", IsDefault = true },
+            new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000009"), Name = "Junk Food", Color = "#3F51B5", IsDefault = true },
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000010"), Name = "Vestuário", Color = "#00BCD4", IsDefault = true },
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000011"), Name = "Reserva de Emergência", Color = "#FFC107", IsDefault = true },
             new Category { Id = Guid.Parse("00000000-0000-0000-0000-000000000012"), Name = "Outros", Color = "#9E9E9E", IsDefault = true }

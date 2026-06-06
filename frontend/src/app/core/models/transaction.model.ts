@@ -3,7 +3,7 @@ export type TransactionType = 'Income' | 'Expense';
 export interface Transaction {
   id: string;
   date: string;
-  amount: number;
+  amount: number | null;
   description: string;
   type: TransactionType;
   categoryId: string;
@@ -20,7 +20,7 @@ export interface Transaction {
 
 export interface CreateTransaction {
   date: string;
-  amount: number;
+  amount: number | null;
   description: string;
   type: TransactionType;
   categoryId: string;
