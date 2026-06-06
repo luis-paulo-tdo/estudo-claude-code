@@ -42,13 +42,18 @@
 
 .filter-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 12px;
-  align-items: center;
+  align-items: end;
 }
 
-.filter-action {
-  padding-top: 18px;
+.invisible-label {
+  visibility: hidden;
+}
+
+.filter-clear-btn {
+  width: 100%;
+  justify-content: center;
 }
 
 .summary-cards {

@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1>Lançamentos</h1>
   <div class="header-actions">
-    <button class="btn btn--ghost" (click)="showBulkForm.set(true)">Lançamento em Massa</button>
+    <button class="btn btn--secondary" (click)="showBulkForm.set(true)">Lançamento em Massa</button>
     <button class="btn btn--primary" (click)="openCreate()">+ Novo Lançamento</button>
   </div>
 </div>
@@ -47,11 +47,10 @@
       <label for="f-estab">Estabelecimento</label>
       <input id="f-estab" type="text" [(ngModel)]="filters.establishment" (input)="load()" placeholder="Buscar..." />
     </div>
-    @if (hasActiveFilters) {
-      <div class="filter-action">
-        <button class="btn btn--ghost btn--sm" (click)="clearFilters()">Limpar filtros</button>
-      </div>
-    }
+    <div class="form-group">
+      <label aria-hidden="true" class="invisible-label">&nbsp;</label>
+      <button class="btn btn--secondary filter-clear-btn" (click)="clearFilters()" [disabled]="!hasActiveFilters">Limpar filtros</button>
+    </div>
   </div>
 </div>
 
@@ -114,7 +113,7 @@
               {{ t.type === 'Income' ? '+' : '-' }}{{ t.amount | currency:'BRL':'symbol':'1.2-2' }}
             </td>
             <td class="actions">
-              <button class="btn btn--ghost btn--sm" (click)="openEdit(t)" [attr.aria-label]="'Editar ' + t.description">Editar</button>
+              <button class="btn btn--secondary btn--sm" (click)="openEdit(t)" [attr.aria-label]="'Editar ' + t.description">Editar</button>
               <button class="btn btn--danger btn--sm" (click)="delete(t.id)" [attr.aria-label]="'Excluir ' + t.description">Excluir</button>
             </td>
           </tr>
